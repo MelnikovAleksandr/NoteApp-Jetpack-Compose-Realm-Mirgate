@@ -9,9 +9,7 @@ import dagger.hilt.components.SingletonComponent
 import ru.asmelnikov.noteapp.feature_note.data.data_source.NoteDatabase
 import ru.asmelnikov.noteapp.feature_note.data.repository.NoteRepositoryImpl
 import ru.asmelnikov.noteapp.feature_note.domain.repository.NoteRepository
-import ru.asmelnikov.noteapp.feature_note.domain.use_case.DeleteNoteUseCase
-import ru.asmelnikov.noteapp.feature_note.domain.use_case.GetNotesUseCase
-import ru.asmelnikov.noteapp.feature_note.domain.use_case.NotesUseCases
+import ru.asmelnikov.noteapp.feature_note.domain.use_case.*
 import javax.inject.Singleton
 
 @Module
@@ -39,7 +37,9 @@ object AppModule {
     fun provideNoteUseCases(repository: NoteRepository): NotesUseCases {
         return NotesUseCases(
             getNotesUseCase = GetNotesUseCase(repository),
-            deleteNoteUseCase = DeleteNoteUseCase(repository)
+            deleteNoteUseCase = DeleteNoteUseCase(repository),
+            addNoteUseCase = AddNoteUseCase(repository),
+            getNoteUseCase = GetNoteUseCase(repository)
         )
     }
 
