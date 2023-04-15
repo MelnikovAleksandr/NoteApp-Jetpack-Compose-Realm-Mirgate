@@ -21,11 +21,11 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.ColorUtils
-import ru.asmelnikov.noteapp.feature_note.domain.model.Note
+import ru.asmelnikov.noteapp.feature_note.domain.model.NoteRealm
 
 @Composable
 fun NoteItem(
-    note: Note,
+    note: NoteRealm,
     modifier: Modifier = Modifier,
     cornerRadius: Dp = 10.dp,
     cutCornerSize: Dp = 30.dp,

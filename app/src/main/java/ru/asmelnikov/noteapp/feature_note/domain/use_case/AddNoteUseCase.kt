@@ -1,18 +1,18 @@
 package ru.asmelnikov.noteapp.feature_note.domain.use_case
 
-import ru.asmelnikov.noteapp.feature_note.domain.model.Note
-import ru.asmelnikov.noteapp.feature_note.domain.repository.NoteRepository
+import ru.asmelnikov.noteapp.feature_note.domain.model.NoteRealm
+import ru.asmelnikov.noteapp.feature_note.domain.repository.NoteRepositoryRealm
 
 class AddNoteUseCase(
-    private val repository: NoteRepository
+    private val repository: NoteRepositoryRealm
 ) {
-    @Throws(Note.InvalidNoteException::class)
-    suspend operator fun invoke(note: Note) {
+    @Throws(NoteRealm.InvalidNoteException::class)
+    suspend operator fun invoke(note: NoteRealm) {
         if (note.title.isBlank()) {
-            throw Note.InvalidNoteException("The title of the note can't be empty")
+            throw NoteRealm.InvalidNoteException("The title of the note can't be empty")
         }
         if (note.content.isBlank()) {
-            throw Note.InvalidNoteException("The content of the note can't be empty")
+            throw NoteRealm.InvalidNoteException("The content of the note can't be empty")
         }
         repository.insertNote(note)
 

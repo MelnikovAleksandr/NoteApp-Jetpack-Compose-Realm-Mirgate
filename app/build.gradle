@@ -3,7 +3,10 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'realm-android'
 }
+
+apply plugin: "realm-android"
 
 android {
     namespace 'ru.asmelnikov.noteapp'

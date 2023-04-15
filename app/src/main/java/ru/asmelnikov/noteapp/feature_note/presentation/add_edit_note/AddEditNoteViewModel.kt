@@ -10,7 +10,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
-import ru.asmelnikov.noteapp.feature_note.domain.model.Note
+import ru.asmelnikov.noteapp.feature_note.domain.model.NoteRealm
 import ru.asmelnikov.noteapp.feature_note.domain.use_case.NotesUseCases
 import javax.inject.Inject
 
@@ -34,7 +34,7 @@ class AddEditNoteViewModel @Inject constructor(
     )
     val noteContent: State<NoteTextFiledState> = _noteContent
 
-    private val _noteColor = mutableStateOf(Note.noteColors.random().toArgb())
+    private val _noteColor = mutableStateOf(NoteRealm.noteColors.random().toArgb())
     val noteColor: State<Int> = _noteColor
 
     private val _eventFlow = MutableSharedFlow<UiEvent>()
@@ -94,16 +94,16 @@ class AddEditNoteViewModel @Inject constructor(
                 viewModelScope.launch {
                     try {
                         notesUseCases.addNoteUseCase(
-                            Note(
+                            NoteRealm(
                                 title = noteTitle.value.text,
                                 content = noteContent.value.text,
                                 color = noteColor.value,
                                 timeStamp = System.currentTimeMillis(),
-                                id = currentNoteId
+                                id = currentNoteId ?: 0
                             )
                         )
                         _eventFlow.emit(UiEvent.SaveNote)
-                    } catch (e: Note.InvalidNoteException) {
+                    } catch (e: NoteRealm.InvalidNoteException) {
                         _eventFlow.emit(
                             UiEvent.ShowSnackBar(
                                 message = e.message ?: "Couldn't save note"

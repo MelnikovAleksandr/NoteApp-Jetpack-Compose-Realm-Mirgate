@@ -25,7 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import ru.asmelnikov.noteapp.feature_note.domain.model.Note
+import ru.asmelnikov.noteapp.feature_note.domain.model.NoteRealm
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -86,7 +86,7 @@ fun AddEditNoteScreen(
                     .padding(8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Note.noteColors.forEach { color ->
+                NoteRealm.noteColors.forEach { color ->
                     val colorInt = color.toArgb()
                     Box(
                         modifier = Modifier
