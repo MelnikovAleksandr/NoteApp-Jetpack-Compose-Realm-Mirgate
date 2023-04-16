@@ -1,6 +1,6 @@
 ﻿# NoteApp-Jetpack-Compose
  
- Jetpack Compose, Room, Hilt, UseCases, Clean Architecture, MVVM, CRUD. 
+ Jetpack Compose, Realm, Hilt, UseCases, Clean Architecture, MVVM, CRUD. 
 
 
 https://user-images.githubusercontent.com/83123472/227731219-b845324f-8b07-4b48-802e-3398f9d034b4.mp4
