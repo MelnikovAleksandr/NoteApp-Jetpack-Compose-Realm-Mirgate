@@ -1,5 +1,6 @@
 package ru.asmelnikov.noteapp.feature_note.presentation.note
 
+import org.mongodb.kbson.ObjectId
 import ru.asmelnikov.noteapp.feature_note.domain.model.NoteRealm
 import ru.asmelnikov.noteapp.feature_note.domain.util.NoteOrder
 

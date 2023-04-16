@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import dagger.hilt.android.AndroidEntryPoint
+import org.mongodb.kbson.ObjectId
 import ru.asmelnikov.noteapp.feature_note.presentation.add_edit_note.AddEditNoteScreen
 import ru.asmelnikov.noteapp.feature_note.presentation.note.components.NotesScreen
 import ru.asmelnikov.noteapp.feature_note.presentation.util.Screens
@@ -42,8 +43,8 @@ class MainActivity : ComponentActivity() {
                                 navArgument(
                                     name = "noteId"
                                 ) {
-                                    type = NavType.IntType
-                                    defaultValue = -1
+                                    type = NavType.StringType
+                                    defaultValue = "-1"
                                 },
                                 navArgument(
                                     name = "noteColor"
