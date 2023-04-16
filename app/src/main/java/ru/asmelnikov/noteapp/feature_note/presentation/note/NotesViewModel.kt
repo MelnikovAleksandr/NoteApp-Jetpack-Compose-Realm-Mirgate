@@ -9,7 +9,8 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import ru.asmelnikov.noteapp.feature_note.domain.model.Note
+import org.mongodb.kbson.ObjectId
+import ru.asmelnikov.noteapp.feature_note.domain.model.NoteRealm
 import ru.asmelnikov.noteapp.feature_note.domain.use_case.NotesUseCases
 import ru.asmelnikov.noteapp.feature_note.domain.util.NoteOrder
 import ru.asmelnikov.noteapp.feature_note.domain.util.OrderType
@@ -23,7 +24,7 @@ class NotesViewModel @Inject constructor(
     private val _state = mutableStateOf(NotesState())
     val state: State<NotesState> = _state
 
-    private var recentlyDeletedNote: Note? = null
+    private var recentlyDeletedNote: NoteRealm? = null
 
     private var getNotesJob: Job? = null
 
@@ -44,7 +45,13 @@ class NotesViewModel @Inject constructor(
             is NotesEvent.DeleteNote -> {
                 viewModelScope.launch {
                     notesUseCases.deleteNoteUseCase(event.note)
-                    recentlyDeletedNote = event.note
+                    recentlyDeletedNote = createNote(
+                        event.note.id,
+                        event.note.color,
+                        event.note.content,
+                        event.note.timeStamp,
+                        event.note.title
+                    )
                 }
             }
             is NotesEvent.RestoreNote -> {
@@ -69,5 +76,22 @@ class NotesViewModel @Inject constructor(
                 _state.value = state.value.copy(notes = notes, noteOrder = noteOrder)
             }
             .launchIn(viewModelScope)
+    }
+
+    private fun createNote(
+        id: ObjectId,
+        color: Int,
+        content: String,
+        timeStamp: Long,
+        title: String
+    ): NoteRealm {
+        return NoteRealm().apply {
+            this.title = title
+            this.id = id
+            this.color = color
+            this.timeStamp = timeStamp
+            this.content = content
+
+        }
     }
 }

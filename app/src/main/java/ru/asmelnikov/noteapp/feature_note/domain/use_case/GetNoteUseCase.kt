@@ -1,13 +1,12 @@
 package ru.asmelnikov.noteapp.feature_note.domain.use_case
 
-import ru.asmelnikov.noteapp.feature_note.domain.model.Note
-import ru.asmelnikov.noteapp.feature_note.domain.repository.NoteRepository
+import ru.asmelnikov.noteapp.feature_note.domain.model.NoteRealm
+import ru.asmelnikov.noteapp.feature_note.domain.repository.NoteRepositoryRealm
 
 class GetNoteUseCase(
-    private val repository: NoteRepository
+    private val repository: NoteRepositoryRealm
 ) {
-
-    suspend operator fun invoke(id: Int): Note? {
+    suspend operator fun invoke(id: String): NoteRealm? {
         return repository.getNoteById(id)
     }
 }

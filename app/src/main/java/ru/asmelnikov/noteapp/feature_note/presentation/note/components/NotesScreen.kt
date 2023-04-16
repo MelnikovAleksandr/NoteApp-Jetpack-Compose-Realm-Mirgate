@@ -96,6 +96,7 @@ fun NotesScreen(
             Spacer(modifier = Modifier.height(16.dp))
             LazyColumn(modifier = Modifier.fillMaxSize()) {
                 items(state.notes) { note ->
+                    val noteId = note.id.toHexString()
                     NoteItem(
                         note = note,
                         modifier = Modifier
@@ -103,7 +104,7 @@ fun NotesScreen(
                             .clickable {
                                 navController.navigate(
                                     Screens.AddEditNoteScreen.route +
-                                            "?noteId=${note.id}&noteColor=${note.color}"
+                                            "?noteId=${noteId}&noteColor=${note.color}"
                                 )
                             },
                         onDeleteClick = {

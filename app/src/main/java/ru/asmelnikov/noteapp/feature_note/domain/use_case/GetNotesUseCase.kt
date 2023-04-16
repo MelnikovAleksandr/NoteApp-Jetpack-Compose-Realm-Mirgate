@@ -2,18 +2,18 @@ package ru.asmelnikov.noteapp.feature_note.domain.use_case
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import ru.asmelnikov.noteapp.feature_note.domain.model.Note
-import ru.asmelnikov.noteapp.feature_note.domain.repository.NoteRepository
+import ru.asmelnikov.noteapp.feature_note.domain.model.NoteRealm
+import ru.asmelnikov.noteapp.feature_note.domain.repository.NoteRepositoryRealm
 import ru.asmelnikov.noteapp.feature_note.domain.util.NoteOrder
 import ru.asmelnikov.noteapp.feature_note.domain.util.OrderType
 
 class GetNotesUseCase(
-    private val repository: NoteRepository
+    private val repository: NoteRepositoryRealm
 ) {
 
     operator fun invoke(
         noteOrder: NoteOrder = NoteOrder.Date(OrderType.Descending)
-    ): Flow<List<Note>> {
+    ): Flow<List<NoteRealm>> {
         return repository.getNotes().map { notes ->
             when (noteOrder.orderType) {
                 is OrderType.Ascending -> {
