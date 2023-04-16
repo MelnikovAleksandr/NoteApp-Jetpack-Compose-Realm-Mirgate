@@ -2,7 +2,9 @@ package ru.asmelnikov.noteapp.feature_note.data.repository
 
 import android.util.Log
 import io.realm.kotlin.Realm
+import io.realm.kotlin.UpdatePolicy
 import io.realm.kotlin.ext.query
+import io.realm.kotlin.internal.platform.runBlocking
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import org.mongodb.kbson.ObjectId
@@ -17,16 +19,18 @@ class NoteRepoRealmImpl @Inject constructor(private val realm: Realm) :
     }
 
     override suspend fun getNoteById(id: String): NoteRealm {
-        var note: NoteRealm? = null
         val objectId = ObjectId(id)
-        realm.write {
-            note = query<NoteRealm>(query = "id == $0", objectId).first().find()
+        return runBlocking {
+            realm.write {
+                val findNote = query<NoteRealm>(query = "id == $0", objectId).first().find()
+                findNote ?: throw IllegalArgumentException("No note found with id $id")
+            }
         }
-        return note ?: throw IllegalArgumentException("No note found with id $id")
     }
 
     override suspend fun insertNote(note: NoteRealm) {
-        realm.write { copyToRealm(note) }
+        realm.write {
+            copyToRealm(note, updatePolicy = UpdatePolicy.ALL) }
     }
 
     override suspend fun deleteNote(note: NoteRealm) {

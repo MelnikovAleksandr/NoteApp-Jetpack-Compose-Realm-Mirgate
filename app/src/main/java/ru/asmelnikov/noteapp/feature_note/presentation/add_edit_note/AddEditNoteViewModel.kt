@@ -7,7 +7,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
@@ -42,12 +41,12 @@ class AddEditNoteViewModel @Inject constructor(
     private val _eventFlow = MutableSharedFlow<UiEvent>()
     val eventFlow = _eventFlow.asSharedFlow()
 
-    private var currentNoteId: ObjectId? = ObjectId.invoke()
+    private var currentNoteId: ObjectId = ObjectId.invoke()
 
     init {
         savedStateHandle.get<String>("noteId")?.let { noteId ->
             if (noteId != "-1") {
-                viewModelScope.launch(Dispatchers.IO) {
+                viewModelScope.launch {
                     notesUseCases.getNoteUseCase(noteId)?.also { note ->
                         currentNoteId = note.id
                         _noteTitle.value = noteTitle.value.copy(
@@ -93,7 +92,7 @@ class AddEditNoteViewModel @Inject constructor(
                 _noteColor.value = event.color
             }
             is AddEditNoteEvent.SaveNote -> {
-                viewModelScope.launch(Dispatchers.IO) {
+                viewModelScope.launch {
                     try {
                         notesUseCases.addNoteUseCase(
                             NoteRealm().apply {
@@ -101,7 +100,7 @@ class AddEditNoteViewModel @Inject constructor(
                                 content = noteContent.value.text
                                 color = noteColor.value
                                 timeStamp = System.currentTimeMillis()
-                                id = currentNoteId ?: throw IllegalArgumentException("No note found with id $id")
+                                id = currentNoteId
                             }
                         )
                         _eventFlow.emit(UiEvent.SaveNote)
